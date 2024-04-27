@@ -1,0 +1,77 @@
+/*Open Two Cmd Terminals
+	On First CMD Type javac MyServer.java
+	and then type java MyServer
+
+	On Second CMD Type Javac MyClient.java
+	and then type java MyClient
+
+*/
+
+
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class MyClient {
+    public static void main(String[] args) {
+        try {
+            Socket s = new Socket("localhost", 6666);
+            DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+            Scanner scanner = new Scanner(System.in);
+            
+	    /*System.out.print("Enter first number: ");
+            int a = scanner.nextInt();
+            System.out.print("Enter second number: ");
+            int b = scanner.nextInt();
+            System.out.print("Enter third number: ");
+            int c = scanner.nextInt();
+
+            int d = (a + b + c) / 3;
+
+            dout.writeInt(d);*/
+
+	    dout.writeUTF("Welcome To DC Practical");
+            dout.flush();
+
+            dout.close();
+            s.close();
+            scanner.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+import java.io.*;
+import java.net.*;
+
+public class MyServer {
+    public static void main(String[] args) {
+        try {
+            ServerSocket ss = new ServerSocket(6666);
+            Socket s = ss.accept(); // establishes connection 
+
+            DataInputStream dis = new DataInputStream(s.getInputStream());
+
+            /*int average = dis.readInt();
+            System.out.println("Average = " + average);*/
+
+	    String str = (String)dis.readUTF();
+	    System.out.println("Message = " + str);
+
+            ss.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
